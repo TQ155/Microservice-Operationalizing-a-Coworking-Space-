@@ -1,11 +1,12 @@
 import logging
 import os
-
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
 from flask import jsonify, request
 from sqlalchemy import and_, text
 from random import randint
+from urllib.parse import quote
+
 
 from config import app, db
 
@@ -52,7 +53,7 @@ def get_daily_visits():
 def daily_visits():
     return jsonify(get_daily_visits)
 
-
+# This one 
 @app.route("/api/reports/user_visits", methods=["GET"])
 def all_user_visits():
     result = db.session.execute(text("""

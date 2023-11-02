@@ -26,20 +26,37 @@ Set up a Postgres database using a Helm Chart.
 1. Set up Bitnami Repo
 ```bash
 helm repo add <REPO_NAME> https://charts.bitnami.com/bitnami
+# 0- Create the cluster from aws console (Project3)
+# 1- Connect to the EKS cluster : aws eks update-kubeconfig --name project23 --region us-east-1
+# 2- **** helm repo add bitnami https://charts.bitnami.com/bitnami (helm chart)
+    
+    # can be found in cd ~/.config/helm
+    # This has a yml file (reposotories.yml) that will run the bitnami img. 
 ```
 
 2. Install PostgreSQL Helm Chart
 ```
 helm install <SERVICE_NAME> <REPO_NAME>/postgresql
+
+# 3- *** helm install my-postgresql2 bitnami/postgresql --set primary.persistence enabled=false
+    # This should set up a Postgre deployment at <SERVICE_NAME>-
+    # helm install <SERVICE_NAME> <REPO_NAME>/postgresql --set primary.persistence.enabled=false
+    
+
+# 4- kubectl get pods --all-namespaces
+     docker ps 
 ```
 
 This should set up a Postgre deployment at `<SERVICE_NAME>-postgresql.default.svc.cluster.local` in your Kubernetes cluster. You can verify it by running `kubectl svc`
 
 By default, it will create a username `postgres`. The password can be retrieved with the following command:
 ```bash
-export POSTGRES_PASSWORD=$(kubectl get secret --namespace default <SERVICE_NAME>-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d)
+export POSTGRES_PASSWORD=$(kubectl get secret --namespace default my-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d)
+
+<SERVICE_NAME> -> my 
 
 echo $POSTGRES_PASSWORD
+621xRdOAAM
 ```
 
 <sup><sub>* The instructions are adapted from [Bitnami's PostgreSQL Helm Chart](https://artifacthub.io/packages/helm/bitnami/postgresql).</sub></sup>
@@ -49,7 +66,8 @@ The database is accessible within the cluster. This means that when you will hav
 
 * Connecting Via Port Forwarding
 ```bash
-kubectl port-forward --namespace default svc/<SERVICE_NAME>-postgresql 5432:5432 &
+    kubectl port-forward --namespace default svc/my-postgresql2 5432:5432 // && 
+    // here open new termina
     PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432
 ```
 
@@ -63,8 +81,12 @@ PGPASSWORD="<PASSWORD HERE>" psql postgres://postgres@<SERVICE_NAME>:5432/postgr
 We will need to run the seed files in `db/` in order to create the tables and populate them with data.
 
 ```bash
-kubectl port-forward --namespace default svc/<SERVICE_NAME>-postgresql 5432:5432 &
+    kubectl port-forward --namespace default svc/<SERVICE_NAME>-postgresql 5432:5432 &
+    
     PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432 < <FILE_NAME.sql>
+
+    PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432 < 1_create_tables.sql
+
 ```
 
 ### 2. Running the Analytics Application Locally
@@ -90,15 +112,19 @@ There are multiple ways to set environment variables in a command. They can be s
 If we set the environment variables by prepending them, it would look like the following:
 ```bash
 DB_USERNAME=username_here DB_PASSWORD=password_here python app.py
+
+**** DB_USERNAME="postgres" DB_PASSWORD="621xRdOAAM" python3 app.py
 ```
 The benefit here is that it's explicitly set. However, note that the `DB_PASSWORD` value is now recorded in the session's history in plaintext. There are several ways to work around this including setting environment variables in a file and sourcing them in a terminal session.
 
 3. Verifying The Application
 * Generate report for check-ins grouped by dates
 `curl <BASE_URL>/api/reports/daily_usage`
+curl 127.0.0.1:5153/api/reports/daily_usage
 
 * Generate report for check-ins grouped by users
 `curl <BASE_URL>/api/reports/user_visits`
+curl 127.0.0.1:5153/api/reports/user_visits
 
 ## Project Instructions
 1. Set up a Postgres database with a Helm Chart
@@ -128,4 +154,4 @@ Please provide up to 3 sentences for each suggestion. Additional content in your
 
 ### Best Practices
 * Dockerfile uses an appropriate base image for the application being deployed. Complex commands in the Dockerfile include a comment describing what it is doing.
-* The Docker images use semantic versioning with three numbers separated by dots, e.g. `1.2.1` and  versioning is visible in the  screenshot. See [Semantic Versioning](https://semver.org/) for more details.
+* The Docker images use semantic versioning with three numbers separated by dots, e.g. `1.2.1` and  versioning is visible in the  screenshot. See [Semantic Versioning](https://semver.org/) for more details.# Project-3
