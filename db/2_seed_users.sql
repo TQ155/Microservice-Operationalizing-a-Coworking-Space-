@@ -13,8 +13,8 @@ INSERT INTO users (first_name, last_name, joined_at) VALUES ('Aniyah', 'Marquez'
 INSERT INTO users (first_name, last_name, joined_at) VALUES ('Tanya', 'Martin', '2023-01-29 18:23:39.757873');
 INSERT INTO users (first_name, last_name, joined_at) VALUES ('Gilberto', 'Spears', '2022-12-16 01:23:39.757876');
 INSERT INTO users (first_name, last_name, joined_at) VALUES ('Saniyah', 'Jimenez', '2023-01-24 16:23:39.757880');
-INSERT INTO users (first_name, last_name, joined_at) VALUES ('Warren', 'Griffith', '2023-02-12 23:23:39.757883');
-INSERT INTO users (first_name, last_name, joined_at) VALUES ('Kellen', 'Harrison', '2023-01-02 11:23:39.757886');
+INSERT INTO users (first_name, last_name, joined_at) VALUES ('Warren', 'Griffith', '2023-03:39.757883');
+INSERT INTO users (first_name, last_name, joined_at) VALUES ('Kellen', 'Harrison', '2023-01-02 11:2-12 23:223:39.757886');
 INSERT INTO users (first_name, last_name, joined_at) VALUES ('Carolina', 'Schwartz', '2023-01-15 06:23:39.757890');
 INSERT INTO users (first_name, last_name, joined_at) VALUES ('Camille', 'Curry', '2022-12-20 12:23:39.757893');
 INSERT INTO users (first_name, last_name, joined_at) VALUES ('Erik', 'Ramirez', '2023-02-12 05:23:39.757897');

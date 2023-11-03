@@ -42,6 +42,7 @@ def get_daily_visits():
 
         response = {}
         for row in result:
+            #print("Row is: " + str(row))
             response[str(row[0])] = row[1]
 
         app.logger.info(response)
@@ -51,7 +52,7 @@ def get_daily_visits():
 
 @app.route("/api/reports/daily_usage", methods=["GET"])
 def daily_visits():
-    return jsonify(get_daily_visits)
+    return jsonify(get_daily_visits())
 
 # This one 
 @app.route("/api/reports/user_visits", methods=["GET"])
