@@ -4,7 +4,10 @@ phases:
   pre_build:
     commands:
       - echo Logging into ECR
+      - apt-get update -y
+      - apt-get install -y docker.io
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - service docker start
   build:
     commands:
       - echo Starting build at `date`
